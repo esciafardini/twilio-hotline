@@ -1,8 +1,6 @@
 (ns hotline.core
   (:require [clj-http.client :as client]
             [clojure.string :as str]
-            [clojure.xml :as xml]
-            [clojure.zip :as zip]
             [hotline.private :as p])
   (:gen-class))
 
