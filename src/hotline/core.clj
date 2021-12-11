@@ -7,9 +7,6 @@
 (def message-url
   (str/join [p/base-url p/SID "/Messages"]))
 
-(defn get-number [name]
-  (get-in p/people [name :phone]))
-
 (defn send-sms [to body from]
   (try
     (client/post message-url
@@ -19,7 +16,14 @@
                               {:name "Body" :content body}]})
     (catch Exception e {:error e} (println e))))
 
-(def number-list (map :phone (map val p/people)))
+(defn get-number [name]
+  (get-in p/people [name :phone]))
+
+(def number-list
+  (reduce
+   #(conj %1 (:phone (val %2)))
+   '()
+   p/people))
 
 (defn text-everybody [message]
   (run! #(send-sms % message p/twilio-number) number-list))
@@ -29,5 +33,6 @@
 
 (defn -main
   [& args]
-  ;(text-everybody "HELLO?!")
-  (text-somebody "test" "This text is a test")) ;;test is my phone #
+  ;;(text-everybody "I think its happening again")
+  (text-somebody "test" "testing testing testing.")
+  )
