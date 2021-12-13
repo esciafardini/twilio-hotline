@@ -7,6 +7,34 @@
 (def message-url
   (str/join [p/base-url p/SID "/Messages"]))
 
+
+;;CODE FOR FETCHING SMS RESPONSES
+(defn get-msgs []
+  (client/get
+   (str message-url ".json")
+   {:as :json
+    :basic-auth [p/SID p/token]
+    :query-params {:To p/twilio-number}}))
+
+(def all-messages
+  (:messages (:body (get-msgs))))
+
+(defn formatted-msg-list
+  "extracts [date] - [sender]: [message] and sorts ascending by date"
+  []
+  (reverse (sort-by key
+                    (reduce #(assoc %1
+                                    (subs (:date_sent %2) 0 25)
+                                    (str
+                                     (or
+                                      (p/phone-number->name (:from %2))
+                                      (:from %2)) ;;returns # if no name stored
+                                     ": "
+                                     (:body %2)))
+                            {}
+                            all-messages))))
+
+;;CODE FOR SENDING SMS
 (defn send-sms [to body from]
   (try
     (client/post message-url
@@ -34,5 +62,4 @@
 (defn -main
   [& args]
   ;;(text-everybody "I think its happening again")
-  (text-somebody "test" "testing testing testing.")
-  )
+  (text-somebody "test" "TEST MESSAGE LOL"))

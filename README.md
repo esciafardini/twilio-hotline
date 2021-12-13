@@ -6,9 +6,9 @@ The file ```hotline.private``` is excluded from this Repo (for obvious reasons).
 The symbol p/people references a map with people's names (str) as keywords.&nbsp; <br /> <br />
 /////////////////////////////////// <br /> <br />
 Example p/people data structure: <br />
-{"jeff" {:phone "+10001112222"}
- "bill" {:phone "+10002223333"}
- "jen"  {:phone "+13332221111"}}
+{"jeff" {:phone "+10001112222" :name "Jeff Hucklebug"} <br />
+ "bill" {:phone "+10002223333" :name "Bill Dingus"} <br />
+ "jen"  {:phone "+13332221111" :name "Jen Jarvis"}} <br /> <br />
 
 ## Usage
 
