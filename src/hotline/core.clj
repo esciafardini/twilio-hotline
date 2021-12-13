@@ -19,6 +19,20 @@
 (def all-messages
   (:messages (:body (get-msgs))))
 
+(defn filter-by-num
+  "Filters p/people map based on matching phone number - returns a single entry"
+  [num]
+  (filter #(= (:phone (val %)) num) p/people))
+
+(defn phone-number->name
+  "Takes phone number as input, returns full name associated with it"
+  [num]
+  (-> num
+       filter-by-num
+       first         ;;returns first (only) entry from filtered list
+       second        ;;returns the map containing :name and :phone
+       :name))
+
 (defn formatted-msg-list
   "extracts [date] - [sender]: [message] and sorts ascending by date"
   []
@@ -27,7 +41,7 @@
                                     (subs (:date_sent %2) 0 25)
                                     (str
                                      (or
-                                      (p/phone-number->name (:from %2))
+                                      (phone-number->name (:from %2))
                                       (:from %2)) ;;returns # if no name stored
                                      ": "
                                      (:body %2)))
