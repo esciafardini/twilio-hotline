@@ -3,12 +3,12 @@
 This is a bot that interfaces with Twilio to text my friends. <br />
 There are automatic responses written in Twilio for when they respond. <br /> <br />
 The file ```hotline.private``` is excluded from this Repo (for obvious reasons). <br />
-The symbol p/people references a map with people's names (str) as keywords.&nbsp; <br /> <br />
+The symbol p/people references a map<br /> <br />
 /////////////////////////////////// <br /> <br />
-Example p/people data structure: <br />
-{"jeff" {:phone "+10001112222" :name "Jeff Hucklebug"} <br />
- "bill" {:phone "+10002223333" :name "Bill Dingus"} <br />
- "jen"  {:phone "+13332221111" :name "Jen Jarvis"}} <br /> <br />
+ data structure: <br />
+{"+14445557777" "Jeff Jeffreys"<br />
+ "+14445559999" "Amanda Nicoleson"<br />
+ "+13105557700" "Rich Richies"}<br /> <br />
 
 ## Usage
 
