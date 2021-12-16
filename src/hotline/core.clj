@@ -26,9 +26,10 @@
   []
   (->> (for [msg all-messages]
         (str (subs (:date_sent msg) 0 11) " - "
-             (phone-number->name (:from msg)) ": "
-             (:body msg)))
-      reverse))
+             (or (phone-number->name (:from msg)) (:from msg)) ": "
+             (:body msg) "\n"))
+      reverse
+      println))
 
 ;;CODE FOR SENDING SMS
 (defn send-sms [to body from]
@@ -42,7 +43,6 @@
 
 (defn name->phone-number [name]
   (get p/phone-numbers name))
-;;gross^
 
 (def number-list
   (keys p/people))
@@ -55,24 +55,11 @@
 
 (defn -main
   [& args]
+  (msg-list))
+
+(comment
+
   ;;(text-everybody "I think its happening again")
-  (text-somebody "Test" "TEST MESSAGE LOL"))
+  (text-somebody "Test" "Hey test ahahahaha do you like bologna??")
 
-
-
-
-#_(defn formatted-msg-list
-  "extracts [date] - [sender]: [message] and sorts ascending by date"
-  []
-  (reverse
-   (sort-by key
-            (reduce #(assoc %1
-                            (subs (:date_sent %2) 0 25)
-                            (str
-                             (or
-                              (phone-number->name (:from %2))
-                              (:from %2)) ;;returns # if no name stored
-                             ": "
-                             (:body %2)))
-                    {}
-                    all-messages))))
+  )

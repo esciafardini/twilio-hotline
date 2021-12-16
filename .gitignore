@@ -12,6 +12,3 @@ pom.xml.asc
 .hgignore
 .hg/
 private.clj
-auth.clj
-messages.clj
-numbers.clj

@@ -3,12 +3,15 @@
 This is a bot that interfaces with Twilio to text my friends. <br />
 There are automatic responses written in Twilio for when they respond. <br /> <br />
 The file ```hotline.private``` is excluded from this Repo (for obvious reasons). <br />
-The symbol p/people references a map<br /> <br />
-/////////////////////////////////// <br /> <br />
- data structure: <br />
-{"+14445557777" "Jeff Jeffreys"<br />
- "+14445559999" "Amanda Nicoleson"<br />
- "+13105557700" "Rich Richies"}<br /> <br />
+The symbol p/people references a map<br />
+The symbol p/phone-numbers references clojure.set/map-invert of p/people.<br />
+<br /> 
+ p/people data structure:
+ ```clj
+{"+14445557777" "Jeff Jeffreys"
+ "+14445559999" "Amanda Nicoleson"
+ "+13105557700" "Rich Richies"}
+ ```
 
 ## Usage
 
