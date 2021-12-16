@@ -7,7 +7,6 @@
 (def message-url
   (str/join [p/base-url p/SID "/Messages"]))
 
-
 ;;CODE FOR FETCHING SMS RESPONSES
 (defn get-msgs []
   (client/get
@@ -22,21 +21,14 @@
 (defn phone-number->name [num]
   (get p/people num))
 
-(defn formatted-msg-list
-  "extracts [date] - [sender]: [message] and sorts ascending by date"
+(defn msg-list
+  "extracts [date] - [sender]: [message] and sorts ascending"
   []
-  (reverse
-   (sort-by key
-            (reduce #(assoc %1
-                            (subs (:date_sent %2) 0 25)
-                            (str
-                             (or
-                              (phone-number->name (:from %2))
-                              (:from %2)) ;;returns # if no name stored
-                             ": "
-                             (:body %2)))
-                    {}
-                    all-messages))))
+  (->> (for [msg all-messages]
+        (str (subs (:date_sent msg) 0 11) " - "
+             (phone-number->name (:from msg)) ": "
+             (:body msg)))
+      reverse))
 
 ;;CODE FOR SENDING SMS
 (defn send-sms [to body from]
@@ -49,7 +41,7 @@
     (catch Exception e {:error e} (println e))))
 
 (defn name->phone-number [name]
-  (first (first (filter #(= (val %) name) p/people))))
+  (get p/phone-numbers name))
 ;;gross^
 
 (def number-list
@@ -65,3 +57,22 @@
   [& args]
   ;;(text-everybody "I think its happening again")
   (text-somebody "Test" "TEST MESSAGE LOL"))
+
+
+
+
+#_(defn formatted-msg-list
+  "extracts [date] - [sender]: [message] and sorts ascending by date"
+  []
+  (reverse
+   (sort-by key
+            (reduce #(assoc %1
+                            (subs (:date_sent %2) 0 25)
+                            (str
+                             (or
+                              (phone-number->name (:from %2))
+                              (:from %2)) ;;returns # if no name stored
+                             ": "
+                             (:body %2)))
+                    {}
+                    all-messages))))
