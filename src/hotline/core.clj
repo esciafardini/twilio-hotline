@@ -1,7 +1,8 @@
 (ns hotline.core
-  (:require [clj-http.client :as client]
-            [clojure.string :as str]
-            [hotline.private :as p])
+  (:require
+   [clj-http.client :as client]
+   [clojure.string :as str]
+   [hotline.private :as p])
   (:gen-class))
 
 (def message-url
@@ -24,12 +25,13 @@
 (defn msg-list
   "extracts [date] - [sender]: [message] and sorts ascending"
   []
-  (->> (for [msg all-messages]
-        (str (subs (:date_sent msg) 0 11) " - "
-             (or (phone-number->name (:from msg)) (:from msg)) ": "
-             (:body msg) "\n"))
-      reverse
-      println))
+  (let [formatted-messages (for [msg all-messages]
+                             (str (subs (:date_sent msg) 0 11) " - "
+                                  (or (phone-number->name (:from msg)) (:from msg)) ": "
+                                  (:body msg) "\n"))]
+    (->> formatted-messages
+         reverse
+         println)))
 
 ;;CODE FOR SENDING SMS
 (defn send-sms [to body from]
@@ -61,5 +63,6 @@
 
   ;;(text-everybody "I think its happening again")
   (text-somebody "Test" "Hey test ahahahaha do you like bologna??")
+  (msg-list)
 
   )
