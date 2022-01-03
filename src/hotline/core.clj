@@ -60,7 +60,6 @@
   (msg-list))
 
 (comment
-
   ;;(text-everybody "I think its happening again")
   (text-somebody "Test" "Hey test ahahahaha do you like bologna??")
   (msg-list)
