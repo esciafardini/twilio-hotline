@@ -56,7 +56,7 @@
   (send-sms (name->phone-number name) message p/twilio-number))
 
 (defn -main
-  [& args]
+  []
   (msg-list))
 
 (comment

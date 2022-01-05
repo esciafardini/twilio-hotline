@@ -3,10 +3,10 @@
    [clojure.set :as set]))
 
 ;;Added for reference
-;;
+;;All phone numbers in the format "+1##########"
 (def SID "YOUR-TWILIO-SID")
 (def token "YOUR-AUTH-TOKEN")
-(def twilio-number "YOUR-TWILIO-PHONE-NUMBER") ;;in the format "+1555555555"
+(def twilio-number "YOUR-TWILIO-PHONE-NUMBER") 
 (def base-url "https://api.twilio.com/2010-04-01/Accounts/")
 
 (def people {"+14105553333" "Test"
