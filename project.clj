@@ -7,4 +7,5 @@
                            [clj-http "3.12.3"]
                            [cheshire "5.10.0"]]
             :repl-options {:init-ns hotline.core}
+            :plugins [[cider/cider-nrepl "0.24.0"]]
             :main hotline.core)
