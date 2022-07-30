@@ -1,6 +1,7 @@
 (ns hotline.core
   (:require
    [clj-http.client :as client]
+   [clojure.pprint :as pprint]
    [clojure.string :as str]
    [hotline.private :as p])
   (:gen-class))
@@ -38,16 +39,16 @@
                    sender-name (phone-number->name (:from msg))
                    recip-name (phone-number->name (:to msg))
                    recip-number (:from msg)]]
-         {:moon tedmoon
-          :msg (:body msg)
-          :from (or sender-name sender-number)
+         {:message (:body msg)
+          :by (or sender-name sender-number)
           :to (or recip-name recip-number)
           :date (subs date-sent 0 11)})
+       (interpose tedmoon)
        reverse))
 
 ;;CODE FOR SENDING SMS
-(defn send-sms 
-  "Absolutely impure function, use with caution" 
+(defn send-sms
+  "Absolutely impure function, use with caution"
   [to body from]
   (try
     (client/post message-url
@@ -57,31 +58,30 @@
                               {:name "Body" :content body}]})
     (catch Exception e {:error e} (println e))))
 
-(defn name->phone-number 
-  "Looks up phone numbers by name" 
-  [name]
-  (get p/phone-numbers name))
+(defn name->phone-number
+  "Looks up phone numbers by name - PURELY!"
+  [stored-name]
+  (get p/phone-numbers stored-name))
 
-;;commented out to avoid accidental SMS sending
-;;
-#_(def number-list
-    (keys p/people))
+(def number-list
+  (keys p/people))
 
-#_(defn text-everybody [message]
-    (run! #(send-sms % message p/twilio-number) number-list))
+(defn text-everybody [message]
+  (run! #(send-sms % message p/twilio-number) number-list))
 
-(defn text-somebody 
-  "It isn't pure and it shadows clojure.core `name` variable in the 
-  function scope - BEWARE"  
-  [name message]
-  (send-sms (name->phone-number name) message p/twilio-number))
+(defn text-somebody
+  "It isn't pure!!!!"
+  [stored-name message]
+  (send-sms (name->phone-number stored-name) message p/twilio-number))
 
 (defn -main
   []
-  (response->map-of-messages (get-msgs :incoming)))
+  (->> (get-msgs :incoming)
+       response->map-of-messages
+       pprint/pprint))
 
 (comment
-  (text-somebody "Test" (str "This is a test" tedmoon))
+  (text-somebody "Test" (str "ACK" "!!! YOU WERE SUPPOSED TO CALL ME @ THIS NUMBER"))
+  #_(text-everybody "Sorry") ;CAREFUL LOL
   (response->map-of-messages (get-msgs))
-  (response->map-of-messages (get-msgs :incoming))
-  )
+  (response->map-of-messages (get-msgs :incoming)))

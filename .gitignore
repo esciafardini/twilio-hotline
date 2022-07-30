@@ -11,6 +11,6 @@ pom.xml.asc
 /.prepl-port
 .hgignore
 .hg/
-private.clj
+src/hotline/private.clj
 /.clj-kondo/
 /.lsp/
